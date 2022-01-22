@@ -70,6 +70,9 @@ dependencies {
     // Integration with observables
     implementation 'androidx.compose.runtime:runtime-livedata:1.0.5'
 
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
