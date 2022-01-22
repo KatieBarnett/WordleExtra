@@ -4,49 +4,25 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import dev.katiebarnett.wordleextra.models.Correct
-import dev.katiebarnett.wordleextra.models.Guess
-import dev.katiebarnett.wordleextra.models.Incorrect
-import dev.katiebarnett.wordleextra.models.Misplaced
+import dev.katiebarnett.wordleextra.models.*
 
 class MainViewModel: ViewModel() {
 
     var guesses = mutableStateListOf<Guess>()
         private set
 
+    var wordLength = 5
+
     init {
-        // Temp
-        guesses.addAll(
-            listOf(
-                Guess(
-                    listOf(
-                        Incorrect('g'),
-                        Incorrect('r'),
-                        Misplaced('e'),
-                        Incorrect('a'),
-                        Incorrect('t')
-                    )
-                ),
-                Guess(
-                    listOf(
-                        Incorrect('l'),
-                        Correct('i'),
-                        Misplaced('v'),
-                        Misplaced('e'),
-                        Incorrect('d')
-                    )
-                ),
-                Guess(
-                    listOf(
-                        Correct('w'),
-                        Correct('i'),
-                        Correct('n'),
-                        Correct('c'),
-                        Correct('e')
-                    )
-                )
-            )
-        )
+        reset()
+    }
+
+    fun reset() {
+        val firstGuess = mutableListOf<Letter>()
+        for (i in 0..wordLength) {
+            firstGuess.add(Unknown())
+        }
+        guesses.addAll(listOf(Guess(letters = firstGuess)))
     }
 
     fun addGuess(guess: Guess) {
