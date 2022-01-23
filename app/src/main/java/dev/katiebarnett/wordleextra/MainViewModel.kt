@@ -27,18 +27,18 @@ class MainViewModel: ViewModel() {
     }
 
     fun reset() {
-        val firstGuess = mutableListOf<Letter>()
+        guesses.replace(listOf(getEmptyGuess()))
+        keyboardRow1.replace(initialKeyboardRow1)
+        keyboardRow2.replace(initialKeyboardRow2)
+        keyboardRow3.replace(initialKeyboardRow3)
+    }
+
+    private fun getEmptyGuess(): Guess {
+        val letters = mutableListOf<Letter>()
         for (i in 0 until wordLength) {
-            firstGuess.add(Unknown())
+            letters.add(Unknown())
         }
-        guesses.clear()
-        guesses.addAll(listOf(Guess(letters = firstGuess)))
-        keyboardRow1.clear()
-        keyboardRow1.addAll(initialKeyboardRow1)
-        keyboardRow2.clear()
-        keyboardRow2.addAll(initialKeyboardRow2)
-        keyboardRow3.clear()
-        keyboardRow3.addAll(initialKeyboardRow3)
+        return Guess(letters = letters)
     }
 
     fun keyClickAction(key: Key) {
@@ -63,10 +63,39 @@ class MainViewModel: ViewModel() {
     }
 
     private fun submitGuess() {
-
+        val latestGuess = guesses.last()
+        val lettersWithState = latestGuess.letters.mapIndexed { index, letter ->
+            letter.char?.let { char ->
+                if (char == targetWord[index]) {
+                    Correct(char)
+                } else if (targetWord.contains(char)) {
+                    Misplaced(char)
+                } else {
+                    Incorrect(char)
+                }
+            } ?: letter
+        }
+        guesses[guesses.lastIndex] = Guess(lettersWithState)
+        if (guesses.last().isAllCorrect) {
+        } else {
+            guesses.add(getEmptyGuess())
+        }
+        updateKeyboard(lettersWithState)
     }
 
-    fun addGuess(guess: Guess) {
-        guesses.add(guess)
+    fun updateKeyboard(lettersWithState: List<Letter>) {
+        keyboardRow1.replace(updateKeyboardRow(keyboardRow1, lettersWithState))
+        keyboardRow2.replace(updateKeyboardRow(keyboardRow2, lettersWithState))
+        keyboardRow3.replace(updateKeyboardRow(keyboardRow3, lettersWithState))
+    }
+
+    private fun updateKeyboardRow(keyboardRow: List<Key>, lettersWithState: List<Letter>): List<Key> {
+        return keyboardRow.map { key ->
+            if (key is Letter && (key is Unknown || key is Misplaced)) {
+                lettersWithState.firstOrNull { it.char == key.char } ?: key
+            } else {
+                key
+            }
+        }
     }
 }
