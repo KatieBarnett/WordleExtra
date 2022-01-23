@@ -43,6 +43,7 @@ class MainActivity : ComponentActivity() {
                     Column(modifier = Modifier.padding(innerPadding)) {
                         Heading()
                         GameContent(viewModel = viewModel)
+                        Keyboard(keyRow1 = viewModel.keyboardRow1, keyRow2 = viewModel.keyboardRow2, keyRow3 = viewModel.keyboardRow3)
                     }
                 }
             }
@@ -93,6 +94,7 @@ fun DefaultPreview() {
             Column(modifier = Modifier.padding(innerPadding)) {
                 Heading()
                 GuessesPreview()
+                KeyboardPreview()
             }
         }
     }

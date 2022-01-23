@@ -11,6 +11,15 @@ class MainViewModel: ViewModel() {
     var guesses = mutableStateListOf<Guess>()
         private set
 
+    var keyboardRow1 = mutableStateListOf<Letter>()
+        private set
+
+    var keyboardRow2 = mutableStateListOf<Letter>()
+        private set
+
+    var keyboardRow3 = mutableStateListOf<Letter>()
+        private set
+
     var wordLength = 5
 
     init {
@@ -22,7 +31,14 @@ class MainViewModel: ViewModel() {
         for (i in 0..wordLength) {
             firstGuess.add(Unknown())
         }
+        guesses.clear()
         guesses.addAll(listOf(Guess(letters = firstGuess)))
+        keyboardRow1.clear()
+        keyboardRow1.addAll(initialKeyboardRow1)
+        keyboardRow1.clear()
+        keyboardRow1.addAll(initialKeyboardRow2)
+        keyboardRow1.clear()
+        keyboardRow1.addAll(initialKeyboardRow3)
     }
 
     fun addGuess(guess: Guess) {
