@@ -35,10 +35,10 @@ class MainViewModel: ViewModel() {
         guesses.addAll(listOf(Guess(letters = firstGuess)))
         keyboardRow1.clear()
         keyboardRow1.addAll(initialKeyboardRow1)
-        keyboardRow1.clear()
-        keyboardRow1.addAll(initialKeyboardRow2)
-        keyboardRow1.clear()
-        keyboardRow1.addAll(initialKeyboardRow3)
+        keyboardRow2.clear()
+        keyboardRow2.addAll(initialKeyboardRow2)
+        keyboardRow3.clear()
+        keyboardRow3.addAll(initialKeyboardRow3)
     }
 
     fun addGuess(guess: Guess) {

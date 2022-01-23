@@ -21,10 +21,10 @@ import kotlin.math.max
 
 @Composable
 fun Keyboard(keyRow1: List<Letter>, keyRow2: List<Letter>, keyRow3: List<Letter>, modifier: Modifier = Modifier) {
-    BoxWithConstraints {
+    BoxWithConstraints(modifier) {
         val maxKeyCount = max(keyRow1.size, max(keyRow2.size, keyRow3.size))
         val keyWidth = (maxWidth / maxKeyCount)
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier) {
             KeyboardRow(keyRow = keyRow1, keyWidth, modifier)
             KeyboardRow(keyRow = keyRow2, keyWidth ,modifier)
             KeyboardRow(keyRow = keyRow3, keyWidth, modifier)
@@ -58,9 +58,9 @@ fun Key(letter: Letter, modifier: Modifier = Modifier) {
 @Composable
 fun KeyBackground(letter: Letter, modifier: Modifier = Modifier){
     val backgroundColor = when(letter) {
-        is Incorrect -> Color.Yellow
+        is Incorrect -> Color.Gray
         is Correct -> Color.Green
-        is Misplaced -> Color.Gray
+        is Misplaced -> Color.Yellow
         is Unknown -> Color.White
     }
     Box(

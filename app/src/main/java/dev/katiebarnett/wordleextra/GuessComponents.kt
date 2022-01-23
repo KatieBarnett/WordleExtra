@@ -54,9 +54,9 @@ fun GuessLetter(letter: Letter, modifier: Modifier = Modifier) {
 @Composable
 fun GuessLetterBackground(letter: Letter, modifier: Modifier = Modifier){
     val backgroundColor = when(letter) {
-        is Incorrect -> Color.Yellow
+        is Incorrect -> Color.Gray
         is Correct -> Color.Green
-        is Misplaced -> Color.Gray
+        is Misplaced -> Color.Yellow
         is Unknown -> Color.White
     }
     Box(

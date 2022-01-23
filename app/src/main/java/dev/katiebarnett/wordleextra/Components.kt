@@ -5,13 +5,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dev.katiebarnett.wordleextra.ui.theme.WordleExtraTheme
 
 @Composable
-fun Heading() {
-    Column {
-        Text(text = "A Jetpack Compose Experiment", style = MaterialTheme.typography.bodySmall)
+fun Heading(modifier: Modifier = Modifier) {
+    Column(modifier) {
+        Text(text = "A Jetpack Compose Experiment", style = MaterialTheme.typography.bodySmall, modifier = modifier)
     }
 }
 
