@@ -42,6 +42,7 @@ class MainActivity : ComponentActivity() {
                         keyRow1 = viewModel.keyboardRow1,
                         keyRow2 = viewModel.keyboardRow2,
                         keyRow3 = viewModel.keyboardRow3,
+                        keyAction = { key: Key -> viewModel.keyClickAction(key) },
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -60,7 +61,7 @@ fun Guesses(guesses: List<Guess>, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Layout(guesses: List<Guess>, keyRow1: List<Letter>, keyRow2: List<Letter>, keyRow3: List<Letter>, modifier: Modifier = Modifier) {
+fun Layout(guesses: List<Guess>, keyRow1: List<Key>, keyRow2: List<Key>, keyRow3: List<Key>, keyAction: (key: Key) -> Unit, modifier: Modifier = Modifier) {
     ConstraintLayout(
         modifier
             .fillMaxSize()
@@ -80,7 +81,7 @@ fun Layout(guesses: List<Guess>, keyRow1: List<Letter>, keyRow2: List<Letter>, k
                 bottom.linkTo(keyboard.top, margin = 16.dp)
                 height = Dimension.fillToConstraints
             })
-        Keyboard(keyRow1, keyRow2, keyRow3,
+        Keyboard(keyRow1, keyRow2, keyRow3, keyAction,
             Modifier
                 .wrapContentSize()
                 .constrainAs(keyboard) {
@@ -124,6 +125,7 @@ fun DefaultPreview() {
                 keyRow1 = initialKeyboardRow1,
                 keyRow2 = initialKeyboardRow2,
                 keyRow3 = initialKeyboardRow3,
+                keyAction = {},
                 modifier = Modifier.padding(innerPadding)
             )
         }
