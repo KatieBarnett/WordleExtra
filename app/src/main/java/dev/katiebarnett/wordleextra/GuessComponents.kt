@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,11 +18,23 @@ import dev.katiebarnett.wordleextra.ui.theme.WordleExtraTheme
 
 @Composable
 fun Guess(guess: Guess, modifier: Modifier = Modifier) {
-    Row(modifier = modifier) {
-        guess.letters.forEach {
-            GuessLetter(it, modifier = Modifier
-                .weight(1f)
-                .aspectRatio(1f))
+    BoxWithConstraints {
+        val letterWidth = (maxWidth / guess.letters.size)?.run {
+            if (this > 50.dp) {
+                50.dp
+            } else {
+                this
+            }
+        }
+        Row(modifier = modifier) {
+            guess.letters.forEach {
+                GuessLetter(
+                    it, modifier = Modifier
+                        .width(letterWidth)
+                        .weight(1f)
+                        .aspectRatio(1f)
+                )
+            }
         }
     }
 }
@@ -62,9 +73,7 @@ fun GuessLetterBackground(letter: Letter, modifier: Modifier = Modifier){
 fun GuessPreview() {
     val testGuess = Guess(listOf(Incorrect('l'), Correct('i'), Misplaced('v'), Misplaced('e'), Incorrect('d')))
     WordleExtraTheme {
-        Guess(testGuess, modifier = Modifier
-            .width(250.dp)
-            .height(50.dp))
+        Guess(testGuess, modifier = Modifier)
     }
 }
 
@@ -73,9 +82,7 @@ fun GuessPreview() {
 fun EmptyGuessPreview() {
     val testGuess = Guess(listOf(Unknown(), Unknown(), Unknown(), Unknown(), Unknown()))
     WordleExtraTheme {
-        Guess(testGuess, modifier = Modifier
-            .width(250.dp)
-            .height(50.dp))
+        Guess(testGuess, modifier = Modifier)
     }
 }
 

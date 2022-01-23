@@ -1,10 +1,10 @@
 package dev.katiebarnett.wordleextra
 
 import androidx.compose.runtime.mutableStateListOf
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import dev.katiebarnett.wordleextra.models.*
+import dev.katiebarnett.wordleextra.models.Guess
+import dev.katiebarnett.wordleextra.models.Letter
+import dev.katiebarnett.wordleextra.models.Unknown
 
 class MainViewModel: ViewModel() {
 
