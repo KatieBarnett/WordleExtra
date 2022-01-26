@@ -1,17 +1,10 @@
-package dev.katiebarnett.wordleextra
+package dev.katiebarnett.wordleextra.data
 
 import android.content.Context
-import android.content.res.AssetManager.ACCESS_BUFFER
-import android.content.res.AssetManager.ACCESS_STREAMING
-import android.os.ParcelFileDescriptor.open
+import dev.katiebarnett.wordleextra.models.Language
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.BufferedReader
-import java.io.File
 import java.io.IOException
-import java.io.InputStreamReader
-import java.nio.channels.AsynchronousFileChannel.open
-import java.nio.channels.FileChannel.open
 import javax.inject.Inject
 import javax.inject.Singleton
 

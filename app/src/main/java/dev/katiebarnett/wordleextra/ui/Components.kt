@@ -1,4 +1,4 @@
-package dev.katiebarnett.wordleextra
+package dev.katiebarnett.wordleextra.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme

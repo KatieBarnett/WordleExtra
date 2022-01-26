@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.katiebarnett.wordleextra.data.WordRepository
 import dev.katiebarnett.wordleextra.models.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.random.Random
@@ -33,6 +33,8 @@ class MainViewModel @Inject constructor(
     var targetWord = ""
 
     var wordList: List<String> = listOf()
+
+    var winGameAction: (() -> Unit)? = null
 
     fun reset(context: Context) {
         viewModelScope.launch {
