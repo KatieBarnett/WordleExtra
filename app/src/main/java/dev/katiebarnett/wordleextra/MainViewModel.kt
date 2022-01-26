@@ -30,17 +30,29 @@ class MainViewModel @Inject constructor(
 
     var wordLength = 5
 
-    var targetWord = "wince"
+    var targetWord = ""
 
-    init {
-        reset()
+    var wordList: List<String> = listOf()
+
+    fun reset(context: Context) {
+        viewModelScope.launch {
+            @Suppress("BlockingMethodInNonBlockingContext")
+            wordList = wordRepository.getWordList(context, wordLength)
+            // TODO Handle exception
+            if (wordList.isEmpty()) {
+                // TODO Handle error
+            }
+            getTargetWord()
+            guesses.replace(listOf(getEmptyGuess()))
+            keyboardRow1.replace(initialKeyboardRow1)
+            keyboardRow2.replace(initialKeyboardRow2)
+            keyboardRow3.replace(initialKeyboardRow3)
+        }
     }
 
-    fun reset() {
-        guesses.replace(listOf(getEmptyGuess()))
-        keyboardRow1.replace(initialKeyboardRow1)
-        keyboardRow2.replace(initialKeyboardRow2)
-        keyboardRow3.replace(initialKeyboardRow3)
+    fun getTargetWord() {
+        val position = Random.nextInt(0, wordList.size)
+        targetWord = wordList[position]
     }
 
     private fun getEmptyGuess(): Guess {
@@ -87,10 +99,17 @@ class MainViewModel @Inject constructor(
         }
         guesses[guesses.lastIndex] = Guess(lettersWithState)
         if (guesses.last().isAllCorrect) {
+            // TODO Show winner
+        } else if (!checkGuessIsInList(guesses.last())) {
+            // TODO show error not in list
         } else {
             guesses.add(getEmptyGuess())
         }
         updateKeyboard(lettersWithState)
+    }
+
+    fun checkGuessIsInList(guess: Guess): Boolean {
+        return wordList.contains(guess.asString)
     }
 
     fun updateKeyboard(lettersWithState: List<Letter>) {

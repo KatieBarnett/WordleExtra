@@ -7,4 +7,7 @@ data class Guess(val letters: List<Letter>) {
 
     val isAllCorrect: Boolean
         get() = letters.none { it !is Correct }
+
+    val asString: String
+        get() = letters.map { it.char }.joinToString("")
 }
