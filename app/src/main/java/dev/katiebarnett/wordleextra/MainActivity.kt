@@ -22,15 +22,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import dagger.hilt.android.AndroidEntryPoint
 import dev.katiebarnett.wordleextra.models.*
 import dev.katiebarnett.wordleextra.ui.theme.WordleExtraTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.reset(this)
         setContent {
             WordleExtraTheme {
                 Scaffold(

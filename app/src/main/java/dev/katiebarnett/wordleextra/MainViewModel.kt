@@ -1,10 +1,20 @@
 package dev.katiebarnett.wordleextra
 
+import android.content.Context
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.katiebarnett.wordleextra.models.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+import kotlin.random.Random
 
-class MainViewModel: ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val wordRepository: WordRepository
+) : ViewModel() {
 
     var guesses = mutableStateListOf<Guess>()
         private set
