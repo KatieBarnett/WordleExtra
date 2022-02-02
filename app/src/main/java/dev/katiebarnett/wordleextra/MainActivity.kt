@@ -63,6 +63,7 @@ class MainActivity : ComponentActivity() {
                         })
                     }
                     composable(WordleExtraScreen.Game.name) {
+                        viewModel.reset(this@MainActivity)
                         GameBody(
                             guesses = viewModel.guesses,
                             keyRow1 = viewModel.keyboardRow1,

@@ -15,9 +15,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import dev.katiebarnett.wordleextra.models.*
-import dev.katiebarnett.wordleextra.ui.theme.WordleExtraTheme
+import dev.katiebarnett.wordleextra.ui.theme.*
 import kotlin.math.max
 
 
@@ -26,25 +27,26 @@ fun Keyboard(keyRow1: List<Key>, keyRow2: List<Key>, keyRow3: List<Key>, keyActi
     BoxWithConstraints(modifier) {
         val maxKeyCount = max(keyRow1.size, max(keyRow2.size, keyRow3.size))
         val keyWidth = (maxWidth / maxKeyCount)
+        val textSize = getFontSizeForBoxSize(keyWidth)
         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier) {
-            KeyboardRow(keyRow = keyRow1, keyAction, keyWidth, modifier)
-            KeyboardRow(keyRow = keyRow2, keyAction, keyWidth ,modifier)
-            KeyboardRow(keyRow = keyRow3, keyAction, keyWidth, modifier)
+            KeyboardRow(keyRow = keyRow1, keyAction, keyWidth, textSize, modifier)
+            KeyboardRow(keyRow = keyRow2, keyAction, keyWidth, textSize, modifier)
+            KeyboardRow(keyRow = keyRow3, keyAction, keyWidth, textSize, modifier)
         }
     }
 }
 
 @Composable
-fun KeyboardRow(keyRow: List<Key>, keyAction: (key: Key) -> Unit, keyWidth: Dp, modifier: Modifier = Modifier) {
+fun KeyboardRow(keyRow: List<Key>, keyAction: (key: Key) -> Unit, keyWidth: Dp, fontSize: TextUnit, modifier: Modifier = Modifier) {
     Row(modifier = modifier) {
         keyRow.forEach {
-            Key(it, keyAction, modifier.width(keyWidth))
+            Key(it, keyAction, fontSize, modifier.width(keyWidth))
         }
     }
 }
 
 @Composable
-fun Key(key: Key, action: (key: Key) -> Unit, modifier: Modifier = Modifier) {
+fun Key(key: Key, action: (key: Key) -> Unit, fontSize: TextUnit, modifier: Modifier = Modifier) {
     Box(modifier = modifier
         .padding(2.dp)
         .aspectRatio(1f),
@@ -54,9 +56,15 @@ fun Key(key: Key, action: (key: Key) -> Unit, modifier: Modifier = Modifier) {
         if (key is Letter) {
             key.char?.let {
                 TextButton(
+                    contentPadding = PaddingValues(0.dp),
                     onClick = { action.invoke(key) },
                     content = {
-                        Text(text = it.uppercase())
+                        Text(
+                            color = key.getForegroundColor(),
+                            text = it.uppercase(),
+                            fontSize = fontSize,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
                     })
             }
         } else if (key is Backspace) {
@@ -65,7 +73,7 @@ fun Key(key: Key, action: (key: Key) -> Unit, modifier: Modifier = Modifier) {
                 content = {
                     Icon(imageVector = Icons.Outlined.Backspace,
                         contentDescription = "Backspace",
-                        tint = Color.Black)
+                        tint = key.getForegroundColor())
                 }
             )
         } else if (key is Enter) {
@@ -74,7 +82,7 @@ fun Key(key: Key, action: (key: Key) -> Unit, modifier: Modifier = Modifier) {
                 content = {
                     Icon(imageVector = Icons.Outlined.KeyboardReturn,
                         contentDescription = "Enter",
-                        tint = Color.Black)
+                        tint = key.getForegroundColor())
                 }
             )
         }
@@ -83,20 +91,12 @@ fun Key(key: Key, action: (key: Key) -> Unit, modifier: Modifier = Modifier) {
 
 @Composable
 fun KeyBackground(key: Key, modifier: Modifier = Modifier){
-    val backgroundColor = when(key) {
-        is Incorrect -> Color.Gray
-        is Correct -> Color.Green
-        is Misplaced -> Color.Yellow
-        is Unknown -> Color.White
-        Backspace -> Color.White
-        Enter -> Color.White
-    }
     Box(
         modifier = modifier
             .fillMaxSize()
             .clip(RoundedCornerShape(10.dp))
-            .border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(10.dp))
-            .background(backgroundColor)
+            .border(width = 1.dp, color = Border, shape = RoundedCornerShape(10.dp))
+            .background(key.getBackgroundColor())
     )
 }
 
@@ -116,12 +116,12 @@ fun KeyPreview() {
         Surface {
             Row {
                 val modifier = Modifier.width(50.dp)
-                Key(Incorrect('a'), {}, modifier)
-                Key(Misplaced('b'), {}, modifier)
-                Key(Correct('c'), {}, modifier)
-                Key(Unknown('d'), {}, modifier)
-                Key(Backspace, {}, modifier)
-                Key(Enter, {}, modifier)
+                Key(Incorrect('a'), {}, getFontSizeForBoxSize(50.dp), modifier)
+                Key(Misplaced('b'), {}, getFontSizeForBoxSize(50.dp), modifier)
+                Key(Correct('c'), {}, getFontSizeForBoxSize(50.dp), modifier)
+                Key(Unknown('d'), {}, getFontSizeForBoxSize(50.dp), modifier)
+                Key(Backspace, {}, getFontSizeForBoxSize(50.dp), modifier)
+                Key(Enter, {}, getFontSizeForBoxSize(50.dp), modifier)
             }
         }
     }

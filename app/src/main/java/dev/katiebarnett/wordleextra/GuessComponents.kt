@@ -3,33 +3,44 @@ package dev.katiebarnett.wordleextra
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.Dimension
 import dev.katiebarnett.wordleextra.models.*
-import dev.katiebarnett.wordleextra.ui.theme.WordleExtraTheme
+import dev.katiebarnett.wordleextra.ui.theme.*
 
 @Composable
 fun Guess(guess: Guess, modifier: Modifier = Modifier) {
+
+
     BoxWithConstraints {
-        val letterWidth = (maxWidth / guess.letters.size)?.run {
+        val letterWidth = (maxWidth / guess.letters.size).run {
             if (this > 50.dp) {
                 50.dp
             } else {
                 this
             }
         }
+        val textSize = getFontSizeForBoxSize(letterWidth)
         Row(modifier = modifier) {
             guess.letters.forEach {
                 GuessLetter(
-                    it, modifier = Modifier
+                    it, fontSize = textSize, modifier = Modifier
                         .width(letterWidth)
                         .weight(1f)
                         .aspectRatio(1f)
@@ -40,31 +51,31 @@ fun Guess(guess: Guess, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun GuessLetter(letter: Letter, modifier: Modifier = Modifier) {
+fun GuessLetter(letter: Letter, fontSize: TextUnit, modifier: Modifier = Modifier) {
     Box(modifier = modifier.padding(2.dp),
         contentAlignment = Alignment.Center
     ) {
         GuessLetterBackground(letter = letter)
         letter.char?.let {
-            Text(text = it.uppercase())
+            Text(text = it.uppercase(),
+                fontSize = fontSize,
+                color = letter.getForegroundColor(),
+                style = MaterialTheme.typography.bodyLarge)
         }
     }
 }
 
 @Composable
 fun GuessLetterBackground(letter: Letter, modifier: Modifier = Modifier){
-    val backgroundColor = when(letter) {
-        is Incorrect -> Color.Gray
-        is Correct -> Color.Green
-        is Misplaced -> Color.Yellow
-        is Unknown -> Color.White
-    }
     Box(
         modifier = modifier
             .fillMaxSize()
             .clip(RoundedCornerShape(10.dp))
-            .border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(10.dp))
-            .background(backgroundColor)
+            .border(
+                width = 1.dp, color = Border,
+                shape = RoundedCornerShape(10.dp)
+            )
+            .background(letter.getBackgroundColor())
     )
 }
 
@@ -95,9 +106,9 @@ fun LetterPreview() {
                 val blockModifier = Modifier
                     .width(50.dp)
                     .height(50.dp)
-                GuessLetter(Incorrect('a'), blockModifier)
-                GuessLetter(Misplaced('b'), blockModifier)
-                GuessLetter(Correct('c'), blockModifier)
+                GuessLetter(Incorrect('a'), getFontSizeForBoxSize(50.dp), blockModifier)
+                GuessLetter(Misplaced('b'), getFontSizeForBoxSize(50.dp), blockModifier)
+                GuessLetter(Correct('c'), getFontSizeForBoxSize(50.dp), blockModifier)
             }
         }
     }

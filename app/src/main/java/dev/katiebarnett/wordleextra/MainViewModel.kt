@@ -102,12 +102,13 @@ class MainViewModel @Inject constructor(
         guesses[guesses.lastIndex] = Guess(lettersWithState)
         if (guesses.last().isAllCorrect) {
             // TODO Show winner
+            updateKeyboard(lettersWithState)
         } else if (!checkGuessIsInList(guesses.last())) {
             // TODO show error not in list
         } else {
             guesses.add(getEmptyGuess())
+            updateKeyboard(lettersWithState)
         }
-        updateKeyboard(lettersWithState)
     }
 
     fun checkGuessIsInList(guess: Guess): Boolean {
