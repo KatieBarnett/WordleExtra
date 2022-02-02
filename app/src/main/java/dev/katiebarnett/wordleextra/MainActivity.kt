@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.katiebarnett.wordleextra.models.Key
@@ -54,7 +55,8 @@ class MainActivity : ComponentActivity() {
             viewModel.invalidWordAction = {
                 scope.launch {
                     snackbarHostState.showSnackbar(
-                        message = "Word not in list"
+                        message = "Word not in list",
+                        actionLabel = "Dismiss"
                     )
                 }
             }
@@ -73,7 +75,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         viewModel.winGameAction = {
-                            navController.navigate(WordleExtraScreen.StartGame.name)
+                            navController.navigate(WordleExtraScreen.Share.name)
                         }
 
                         composable(WordleExtraScreen.StartGame.name) {
@@ -94,9 +96,8 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
-                        composable(WordleExtraScreen.Share.name) {
+                        dialog(WordleExtraScreen.Share.name) {
                             ShareBody(
-                                guesses = viewModel.guesses,
                                 shareGameAction = {
                                     // TODO
                                 },

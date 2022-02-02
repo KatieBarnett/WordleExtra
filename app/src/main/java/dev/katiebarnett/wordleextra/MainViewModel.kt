@@ -101,7 +101,7 @@ class MainViewModel @Inject constructor(
                 }
             } ?: letter
         }
-        if (guesses.last().isAllCorrect) {
+        if (guesses.last().asString.equals(targetWord)) {
             guesses[guesses.lastIndex] = Guess(lettersWithState)
             updateKeyboard(lettersWithState)
             winGameAction?.invoke()
