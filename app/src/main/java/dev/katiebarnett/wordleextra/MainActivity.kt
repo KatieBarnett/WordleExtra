@@ -17,10 +17,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import dev.katiebarnett.wordleextra.models.*
-import dev.katiebarnett.wordleextra.screens.StartGameBody
+import dev.katiebarnett.wordleextra.models.Key
 import dev.katiebarnett.wordleextra.screens.GameBody
 import dev.katiebarnett.wordleextra.screens.ShareBody
+import dev.katiebarnett.wordleextra.screens.StartGameBody
 import dev.katiebarnett.wordleextra.ui.theme.WordleExtraTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,6 +41,9 @@ class MainActivity : ComponentActivity() {
     fun WordleExtraApp() {
         WordleExtraTheme {
             val navController = rememberNavController()
+            viewModel.winGameAction = {
+                navController.navigate(WordleExtraScreen.Share.name)
+            }
             Scaffold(
                 topBar = {
                     CenterAlignedTopAppBar(

@@ -101,8 +101,8 @@ class MainViewModel @Inject constructor(
         }
         guesses[guesses.lastIndex] = Guess(lettersWithState)
         if (guesses.last().isAllCorrect) {
-            // TODO Show winner
             updateKeyboard(lettersWithState)
+            winGameAction?.invoke()
         } else if (!checkGuessIsInList(guesses.last())) {
             // TODO show error not in list
         } else {

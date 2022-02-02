@@ -12,13 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import dev.katiebarnett.wordleextra.models.*
-import dev.katiebarnett.wordleextra.ui.theme.*
+import dev.katiebarnett.wordleextra.ui.theme.Border
+import dev.katiebarnett.wordleextra.ui.theme.WordleExtraTheme
 import kotlin.math.max
 
 
@@ -49,7 +49,7 @@ fun KeyboardRow(keyRow: List<Key>, keyAction: (key: Key) -> Unit, keyWidth: Dp, 
 fun Key(key: Key, action: (key: Key) -> Unit, fontSize: TextUnit, modifier: Modifier = Modifier) {
     Box(modifier = modifier
         .padding(2.dp)
-        .aspectRatio(1f),
+        .aspectRatio(0.75f),
         contentAlignment = Alignment.Center
     ) {
         KeyBackground(key = key)
