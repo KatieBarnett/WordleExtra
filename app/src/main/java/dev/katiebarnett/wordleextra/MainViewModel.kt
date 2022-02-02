@@ -36,6 +36,8 @@ class MainViewModel @Inject constructor(
 
     var winGameAction: (() -> Unit)? = null
 
+    var invalidWordAction: (() -> Unit)? = null
+
     fun reset(context: Context) {
         viewModelScope.launch {
             @Suppress("BlockingMethodInNonBlockingContext")
@@ -99,13 +101,14 @@ class MainViewModel @Inject constructor(
                 }
             } ?: letter
         }
-        guesses[guesses.lastIndex] = Guess(lettersWithState)
         if (guesses.last().isAllCorrect) {
+            guesses[guesses.lastIndex] = Guess(lettersWithState)
             updateKeyboard(lettersWithState)
             winGameAction?.invoke()
         } else if (!checkGuessIsInList(guesses.last())) {
-            // TODO show error not in list
+            invalidWordAction?.invoke()
         } else {
+            guesses[guesses.lastIndex] = Guess(lettersWithState)
             guesses.add(getEmptyGuess())
             updateKeyboard(lettersWithState)
         }

@@ -1,10 +1,11 @@
 package dev.katiebarnett.wordleextra.ui
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dev.katiebarnett.wordleextra.ui.theme.WordleExtraTheme
@@ -24,4 +25,13 @@ fun HeadingPreview() {
             Heading()
         }
     }
+}
+
+@Composable
+fun SnackbarScreen(snackbarHostState: SnackbarHostState, modifier: Modifier) {
+    SnackbarHost(
+        hostState = snackbarHostState,
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight(Alignment.Bottom))
 }
